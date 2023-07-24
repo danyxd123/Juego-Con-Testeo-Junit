@@ -1,0 +1,38 @@
+ackage states;
+
+mport org.junit.jupiter.api.Assertions;
+mport org.junit.jupiter.api.BeforeEach;
+mport org.junit.jupiter.api.Test;
+
+mport gameObjects.Constants;
+mport graphics.Assets;
+mport ui.Button;
+
+lass MenuStateTest {
+
+   private MenuState menuState;
+
+   @BeforeEach
+   void setUp() {
+       Assets.load(); // Cargar las imágenes para las pruebas
+       menuState = new MenuState();
+   }
+
+   @Test
+   void testMenuStateButtons() {
+       Assertions.assertEquals(3, menuState.getButtons().size());
+
+       Button playButton = menuState.getButtons().get(0);
+       Assertions.assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2, playButton.getX());
+       Assertions.assertEquals(Constants.HEIGHT / 2 - Assets.greyBtn.getHeight() * 2, playButton.getY());
+
+       Button exitButton = menuState.getButtons().get(1);
+       Assertions.assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2, exitButton.getX());
+       Assertions.assertEquals(Constants.HEIGHT / 2 + Assets.greyBtn.getHeight() * 2, exitButton.getY());
+
+       Button scoreButton = menuState.getButtons().get(2);
+       Assertions.assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2, scoreButton.getX());
+       Assertions.assertEquals(Constants.HEIGHT / 2, scoreButton.getY());
+   }
+
+   // Agregar más pruebas para otros métodos y comportamientos de MenuState si es necesario

@@ -1,0 +1,29 @@
+package states;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class MenuStateTest {
+    private MenuState menuState;
+
+    @BeforeEach
+    void setUp() {
+        menuState = new MenuState();
+    }
+
+    @Test
+    void testUpdate() {
+        // Realiza las pruebas para el método update
+        menuState.update(0.1f);
+
+        // Agrega aserciones para verificar el comportamiento esperado del método update
+        // por ejemplo, puedes verificar si los botones se actualizan correctamente
+    }
+
+    @Test
+    void testDraw() {
+        // Realiza las pruebas para el método draw
+        // Puedes crear una clase DummyGraphics para simular el objeto Graphics
+        // y luego verificar si los botones se dibujan correctamente en esa instancia
+    }
+}

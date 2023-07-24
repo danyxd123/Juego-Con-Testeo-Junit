@@ -1,0 +1,65 @@
+package gameObjects;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+public class MessageTest {
+
+    private Message message;
+    private Vector2D position;
+    private boolean fade;
+    private String text;
+    private Color color;
+    private boolean center;
+    private Font font;
+    private Graphics2D graphics;
+
+    @Before
+    public void setUp() {
+        position = new Vector2D(100, 200);
+        fade = true;
+        text = "Hello, World!";
+        color = Color.WHITE;
+        center = true;
+        font = mock(Font.class);
+        graphics = mock(Graphics2D.class);
+
+        message = new Message(position, fade, text, color, center, font);
+    }
+
+    @Test
+    public void testDraw() {
+        // Set up
+        AlphaComposite alphaComposite = mock(AlphaComposite.class);
+        when(graphics.getComposite()).thenReturn(alphaComposite);
+
+        // Call the method
+        message.draw(graphics);
+
+        // Verify the expected method calls
+        verify(graphics).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, message.getAlpha()));
+        verify(graphics).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+        verify(graphics).setColor(color);
+        verify(graphics).setFont(font);
+        verify(graphics).drawString(text, (int) position.getX(), (int) position.getY());
+        verify(alphaComposite).getAlpha();
+    }
+
+    @Test
+    public void testIsDead() {
+        assertFalse(message.isDead());
+
+        // Call the method multiple times
+        for (int i = 0; i < 100; i++) {
+            message.update();
+        }
+
+        assertTrue(message.isDead());
+    }
+}

@@ -1,0 +1,77 @@
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class ChronometerTest {
+
+    private Chronometer chronometer;
+
+    @Before
+    public void setUp() {
+        chronometer = new Chronometer();
+    }
+
+    @Test
+    public void testChronometerNotRunningByDefault() {
+        assertFalse(chronometer.isRunning());
+    }
+
+    @Test
+    public void testChronometerStartRunning() {
+        chronometer.run(1000);
+        assertTrue(chronometer.isRunning());
+    }
+
+    @Test
+    public void testChronometerStopRunning() {
+        chronometer.run(1000);
+        assertTrue(chronometer.isRunning());
+
+        chronometer.update();
+        assertFalse(chronometer.isRunning());
+    }
+
+    @Test
+    public void testChronometerNotRunningWhenNotStarted() {
+        chronometer.update();
+        assertFalse(chronometer.isRunning());
+    }
+
+    @Test
+    public void testChronometerNotRunningWhenTimeNotElapsed() throws InterruptedException {
+        chronometer.run(2000);
+        assertTrue(chronometer.isRunning());
+
+        chronometer.update();
+        assertTrue(chronometer.isRunning());
+
+        // Espera un poco menos del tiempo especificado
+        Thread.sleep(1900);
+
+        chronometer.update();
+        assertTrue(chronometer.isRunning());
+
+        // Espera el tiempo restante más un poco más para asegurarse de que ha pasado el tiempo suficiente
+        Thread.sleep(200);
+
+        chronometer.update();
+        assertFalse(chronometer.isRunning());
+    }
+
+    @Test
+    public void testChronometerRunningWhenTimeElapsed() throws InterruptedException {
+        chronometer.run(2000);
+        assertTrue(chronometer.isRunning());
+
+        chronometer.update();
+        assertTrue(chronometer.isRunning());
+
+        // Espera el tiempo completo para que el tiempo haya transcurrido
+        Thread.sleep(2000);
+
+        chronometer.update();
+        assertFalse(chronometer.isRunning());
+    }
+}
+

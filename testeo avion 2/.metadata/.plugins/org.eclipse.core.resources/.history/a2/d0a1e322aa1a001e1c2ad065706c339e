@@ -1,0 +1,14 @@
+package states;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class StateEnumTest {
+
+    @Test
+    public void testEnumValues() {
+        Assertions.assertEquals(4, StateEnum.values().length);
+        Assertions.assertArrayEquals(new StateEnum[] { StateEnum.MENU, StateEnum.GAME, StateEnum.PAUSE, StateEnum.GAME_OVER },
+                StateEnum.values());
+    }
+}

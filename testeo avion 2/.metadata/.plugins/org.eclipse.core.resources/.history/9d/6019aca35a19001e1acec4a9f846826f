@@ -1,0 +1,51 @@
+package states;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.awt.Graphics;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+
+public class StateTest {
+
+    @Mock
+    private Graphics graphics;
+
+    private State state;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        state = new ConcreteState();
+    }
+
+    @Test
+    public void testUpdate() {
+        float dt = 0.1f;
+        state.update(dt);
+        // Add assertions here to verify the update logic
+    }
+
+    @Test
+    public void testDraw() {
+        state.draw(graphics);
+        verify(graphics).drawString("Draw method called", 0, 0);
+    }
+
+    private static class ConcreteState extends State {
+
+        @Override
+        public void update(float dt) {
+            // Implement update logic
+        }
+
+        @Override
+        public void draw(Graphics g) {
+            g.drawString("Draw method called", 0, 0);
+        }
+    }
+}

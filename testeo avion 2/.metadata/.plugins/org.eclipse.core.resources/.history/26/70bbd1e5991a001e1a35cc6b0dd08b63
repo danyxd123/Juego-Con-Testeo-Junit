@@ -1,0 +1,33 @@
+package states;
+
+import org.junit.jupiter.api.Test;
+import java.awt.Graphics;
+
+import static org.mockito.Mockito.*;
+
+public class LoadingStateTest {
+
+    @Test
+    public void testUpdate() {
+        Thread loadingThread = mock(Thread.class);
+        LoadingState loadingState = new LoadingState(loadingThread);
+
+        Graphics graphics = mock(Graphics.class);
+
+        loadingState.update(0.1f);
+
+        // Agrega aquí las aserciones necesarias según el comportamiento esperado del método update()
+    }
+
+    @Test
+    public void testDraw() {
+        Thread loadingThread = mock(Thread.class);
+        LoadingState loadingState = new LoadingState(loadingThread);
+
+        Graphics graphics = mock(Graphics.class);
+
+        loadingState.draw(graphics);
+
+        // Agrega aquí las aserciones necesarias según el comportamiento esperado del método draw()
+    }
+}

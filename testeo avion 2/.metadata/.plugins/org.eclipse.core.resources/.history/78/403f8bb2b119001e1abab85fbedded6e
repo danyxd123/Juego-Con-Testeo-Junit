@@ -1,0 +1,13 @@
+package states;
+
+import org.junit.jupiter.api.BeforeEach;
+import graphics.Assets;
+
+class MenuStateTest {
+
+    @BeforeEach
+    void setUp() {
+        Assets.load(); // Cargar las imágenes para las pruebas
+        new MenuState();
+    }
+}

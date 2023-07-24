@@ -1,0 +1,72 @@
+package gameObjects;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
+public class GameObjectTest {
+
+    private GameObject gameObject;
+
+    @Before
+    public void setUp() {
+        // Creamos una instancia de la clase abstracta GameObject usando una clase derivada o un mock
+        gameObject = new GameObjectDerived(new Vector2D(0, 0), mock(BufferedImage.class));
+    }
+
+    @Test
+    public void testGetPosition() {
+        Vector2D position = gameObject.getPosition();
+        assertEquals(new Vector2D(0, 0), position);
+    }
+
+    @Test
+    public void testSetPosition() {
+        gameObject.setPosition(new Vector2D(100, 200));
+        Vector2D position = gameObject.getPosition();
+        assertEquals(new Vector2D(100, 200), position);
+    }
+
+    @Test
+    public void testUpdate() {
+        float dt = 0.1f;
+
+        // Creamos un mock de la clase derivada de GameObject para verificar que se llame al método update
+        GameObjectDerived gameObjectMock = mock(GameObjectDerived.class);
+        gameObjectMock.update(dt);
+
+        // Verificamos que el método update sea llamado con el valor correcto de dt
+        verify(gameObjectMock).update(dt);
+    }
+
+    @Test
+    public void testDraw() {
+        Graphics graphics = mock(Graphics.class);
+        gameObject.draw(graphics);
+
+        // Verificamos que el método draw sea llamado con el objeto Graphics correcto
+        verify(graphics).drawImage(any(BufferedImage.class), anyInt(), anyInt(), any());
+    }
+
+    // Clase derivada de GameObject para propósitos de prueba
+    private static class GameObjectDerived extends GameObject {
+        public GameObjectDerived(Vector2D position, BufferedImage texture) {
+            super(position, texture);
+        }
+
+        @Override
+        public void update(float dt) {
+            // Implementación de prueba para el método update
+        }
+
+        @Override
+        public void draw(Graphics g) {
+            // Implementación de prueba para el método draw
+        }
+    }
+}

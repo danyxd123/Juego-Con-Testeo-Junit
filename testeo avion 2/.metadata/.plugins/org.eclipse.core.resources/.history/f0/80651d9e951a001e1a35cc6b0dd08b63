@@ -1,0 +1,60 @@
+package states;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import ui.Button;
+
+public class ScoreStateTest {
+
+    private ScoreState scoreState;
+    private Button returnButton;
+    private PriorityQueue<ScoreData> highScores;
+    private Comparator<ScoreData> scoreComparator;
+
+    @Before
+    public void setUp() {
+        scoreState = new ScoreState();
+        returnButton = Mockito.mock(Button.class);
+        highScores = Mockito.mock(PriorityQueue.class);
+        scoreComparator = Mockito.mock(Comparator.class);
+        scoreState.returnButton = returnButton;
+        scoreState.highScores = highScores;
+        scoreState.scoreComparator = scoreComparator;
+    }
+
+    @Test
+    public void testUpdate() {
+        scoreState.update(0.1f);
+        Mockito.verify(returnButton).update();
+    }
+
+    @Test
+    public void testDraw() {
+        Graphics graphics = Mockito.mock(Graphics.class);
+        ArrayList<ScoreData> dataList = new ArrayList<>();
+        dataList.add(new ScoreData("Player1", 100));
+        dataList.add(new ScoreData("Player2", 200));
+        Mockito.when(highScores.toArray(Mockito.any())).thenReturn(dataList.toArray(new ScoreData[0]));
+        Mockito.when(scoreComparator.compare(Mockito.any(), Mockito.any())).thenReturn(1);
+        scoreState.draw(graphics);
+        Mockito.verify(returnButton).draw(graphics);
+        // Verificar si los métodos relacionados con la renderización se llaman correctamente
+        // Puedes utilizar Mockito.verify para verificar si se llaman los métodos de dibujo apropiados en la clase Graphics.
+    }
+
+    @Test
+    public void testGetReturnButton() {
+        assertEquals(returnButton, scoreState.getReturnButton());
+    }
+
+    @Test
+    public void testGetScoreComparator() {
+        assertEquals(scoreComparator, scoreState.getScoreComparator());
+    }
+}

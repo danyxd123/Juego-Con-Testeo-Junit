@@ -1,0 +1,30 @@
+package states;
+
+import java.awt.Button;
+import java.awt.Graphics;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class ScoreState {
+    private ScoreData scoreData;
+    private Button button;
+
+    public ScoreState(ScoreData scoreData, Button button) {
+        this.scoreData = scoreData;
+        this.button = button;
+    }
+
+    public void render(Graphics g) {
+        PriorityQueue<Integer> scores = scoreData.getScores();
+        Comparator<Integer> scoreComparator = scoreData.getScoreComparator();
+
+        scores.stream()
+                .sorted(scoreComparator.reversed())
+                .forEach(score -> {
+                    String scoreString = Integer.toString(score);
+                    g.drawString(scoreString, 0, 0);
+                });
+
+        button.render(g);
+    }
+}

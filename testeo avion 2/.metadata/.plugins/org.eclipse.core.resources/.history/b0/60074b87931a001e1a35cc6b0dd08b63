@@ -1,0 +1,45 @@
+package states;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class StateTest {
+    private State state;
+    private FakeGraphics graphics;
+
+    @BeforeEach
+    void setUp() {
+        state = new ConcreteState();
+        graphics = new FakeGraphics();
+    }
+
+    @Test
+    void testUpdate() {
+        state.update(0.1f);
+        assertTrue(state.isUpdateCalled());
+    }
+
+    @Test
+    void testDraw() {
+        state.draw(graphics);
+        assertTrue(state.isDrawCalled());
+    }
+
+    // Clase ficticia para simular la clase Graphics
+    private static class FakeGraphics {}
+
+    // Clase concreta que extiende State para probar las implementaciones de los métodos abstractos
+    private static class ConcreteState extends State {
+        @Override
+        public void update(float dt) {
+            updateCalled = true;
+        }
+
+        @Override
+        public void draw(Graphics g) {
+            drawCalled = true;
+        }
+    }
+}
+

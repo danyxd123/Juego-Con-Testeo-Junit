@@ -1,0 +1,60 @@
+package gameObjects;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
+public class LaserTest {
+
+    private Laser laser;
+    private Vector2D position;
+    private Vector2D velocity;
+    private double maxVel;
+    private double angle;
+    private BufferedImage texture;
+    private GameState gameState;
+
+    @Before
+    public void setUp() {
+        position = new Vector2D(100, 200);
+        velocity = new Vector2D(1, 0);
+        maxVel = 5.0;
+        angle = Math.PI / 2;
+        texture = mock(BufferedImage.class);
+        gameState = mock(GameState.class);
+        laser = new Laser(position, velocity, maxVel, angle, texture, gameState);
+    }
+
+    @Test
+    public void testUpdate() {
+        float dt = 0.1f;
+        laser.update(dt);
+
+        Vector2D expectedPosition = new Vector2D(100.1, 200.0);
+        verify(gameState).collidesWith();
+        assertEquals(expectedPosition, laser.getPosition());
+    }
+
+    @Test
+    public void testDraw() {
+        Graphics2D graphics = mock(Graphics2D.class);
+        AffineTransform affineTransform = mock(AffineTransform.class);
+        when(graphics.getTransform()).thenReturn(affineTransform);
+
+        laser.draw(graphics);
+
+        verify(graphics).drawImage(eq(texture), any(AffineTransform.class), eq(null));
+    }
+
+    @Test
+    public void testGetCenter() {
+        Vector2D center = laser.getCenter();
+        Vector2D expectedCenter = new Vector2D(100 + laser.getWidth() / 2, 200 + laser.getWidth() / 2);
+        assertEquals(expectedCenter, center);
+    }
+}

@@ -1,0 +1,21 @@
+package states;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import gameObjects.Constants;
+import graphics.Assets;
+import ui.Button;
+
+class MenuStateTest {
+
+    private MenuState menuState;
+
+    @BeforeEach
+    void setUp() {
+        Assets.load(); // Cargar las imágenes para las pruebas
+        menuState = new MenuState();
+    }
+
+  

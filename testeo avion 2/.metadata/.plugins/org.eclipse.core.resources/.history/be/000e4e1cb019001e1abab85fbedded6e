@@ -1,0 +1,81 @@
+package states;
+
+import static org.mockito.Mockito.*;
+
+import java.awt.Graphics;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatchers;
+
+import graphics.Assets;
+import io.JSONParser;
+import io.ScoreData;
+
+public class ScoreStateTest {
+
+    private ScoreState scoreState;
+    private PriorityQueue<ScoreData> highScores;
+
+    @Before
+    public void setup() {
+        // Configurar objetos necesarios para las pruebas
+        scoreState = new ScoreState();
+        highScores = new PriorityQueue<>(10, Comparator.comparingInt(ScoreData::getScore));
+        scoreState.setHighScores(highScores);
+    }
+
+    @Test
+    public void testUpdate() {
+        // Mock de la clase Graphics
+        Graphics graphics = mock(Graphics.class);
+
+        // Llamar al método update
+        scoreState.update(0.1f);
+
+        // Verificar que se haya llamado al método update del botón de retorno
+        verify(scoreState.getReturnButton()).update();
+
+        // Verificar que no haya más interacciones con el objeto Graphics
+        verifyNoMoreInteractions(graphics);
+    }
+
+    @Test
+    public void testDraw() throws FileNotFoundException {
+        // Mock de la clase Graphics
+        Graphics graphics = mock(Graphics.class);
+
+        // Mock de la clase JSONParser para simular la lectura del archivo
+        JSONParser jsonParser = mock(JSONParser.class);
+        ArrayList<ScoreData> dataList = new ArrayList<>();
+        dataList.add(new ScoreData("Player1", 100));
+        dataList.add(new ScoreData("Player2", 200));
+        when(jsonParser.readFile()).thenReturn(dataList);
+        // Reemplazar el JSONParser interno del ScoreState por el mock
+        scoreState.setJSONParser(jsonParser);
+
+        // Mock de la clase Assets para evitar llamadas a métodos reales
+        Assets assets = mock(Assets.class);
+        scoreState.setAssets(assets);
+
+        // Llamar al método draw
+        scoreState.draw(graphics);
+
+        // Verificar que se haya llamado al método draw del botón de retorno
+        verify(scoreState.getReturnButton()).draw(ArgumentMatchers.eq(graphics));
+
+        // Verificar las llamadas a los métodos de dibujo de Text para los puntajes y fechas
+        verify(graphics, times(2)).drawString(
+                ArgumentMatchers.anyString(),
+                ArgumentMatchers.anyInt(),
+                ArgumentMatchers.anyInt()
+        );
+
+        // Verificar que no haya más interacciones con los objetos mockeados
+        verifyNoMoreInteractions(graphics, scoreState.getReturnButton(), assets, jsonParser);
+    }
+}

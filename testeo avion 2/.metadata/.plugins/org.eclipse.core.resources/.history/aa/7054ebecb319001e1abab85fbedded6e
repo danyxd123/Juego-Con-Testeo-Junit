@@ -1,0 +1,28 @@
+package states;
+
+import org.junit.jupiter.api.Test;
+import ui.Button;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+public class MenuStateTest {
+
+    @Test
+    public void testMenuState() {
+        MenuState menuState = new MenuState();
+
+        assertNotNull(menuState.getButtons());
+        assertEquals(3, menuState.getButtons().size());
+
+        // Aquí puedes agregar más aserciones para verificar el comportamiento esperado
+
+        // Ejemplo: Verificar que los botones se inicialicen correctamente
+        for (Button button : menuState.getButtons()) {
+            assertNotNull(button);
+            assertNotNull(button.getNormalImage());
+            assertNotNull(button.getHoverImage());
+            assertNotNull(button.getAction());
+        }
+    }
+}

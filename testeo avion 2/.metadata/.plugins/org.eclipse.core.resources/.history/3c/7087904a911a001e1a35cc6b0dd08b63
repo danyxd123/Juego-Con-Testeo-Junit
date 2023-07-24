@@ -1,0 +1,42 @@
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.text.AttributedCharacterIterator;
+import java.util.Map;
+
+// Clase FakeGraphics2D utilizada para simular el entorno de dibujo
+class FakeGraphics2D implements Graphics2D {
+    public boolean drawTextCalled = false;
+    public Vector2D textPosition;
+
+    // Implementa los métodos necesarios para simular el entorno de dibujo
+    // según las necesidades de las pruebas
+
+    @Override
+    public void drawString(String str, int x, int y) {
+        drawTextCalled = true;
+        textPosition = new Vector2D(x, y);
+    }
+
+    // Implementa los demás métodos de la interfaz Graphics2D según sea necesario
+    // ...
+
+    // Métodos no utilizados en las pruebas, proporciona implementaciones vacías o predeterminadas
+
+    @Override
+    public void addRenderingHints(Map<?, ?> hints) {}
+
+    @Override
+    public void clearRect(int x, int y, int width, int height) {}
+
+    @Override
+    public void clip(Shape s) {}
+
+    @Override
+    public void draw(Shape s) {}
+
+    // Implementa los demás métodos de la interfaz Graphics2D con implementaciones vacías o predeterminadas
+    // ...
+}
+
+

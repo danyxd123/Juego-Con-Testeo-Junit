@@ -1,0 +1,60 @@
+package gameObjects;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import math.Vector2D;
+import states.GameState;
+
+public class LaserTest {
+    private Laser laser;
+    private Vector2D position;
+    private Vector2D velocity;
+    private double maxVel;
+    private double angle;
+    private BufferedImage texture;
+    private GameState gameState;
+
+    @Before
+    public void setUp() {
+        position = new Vector2D(100, 200);
+        velocity = new Vector2D(1, 0);
+        maxVel = 5;
+        angle = 0;
+        texture = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+        gameState = new GameState();
+
+        laser = new Laser(position, velocity, maxVel, angle, texture, gameState);
+    }
+
+    @Test
+    public void testUpdate() {
+        laser.update(1.0f);
+
+        Vector2D updatedPosition = laser.getPosition();
+        assertNotNull(updatedPosition);
+        assertEquals(105, updatedPosition.getX(), 0);
+        assertEquals(200, updatedPosition.getY(), 0);
+
+        // Add more assertions based on the expected behavior of the update method
+    }
+
+    @Test
+    public void testDraw() {
+        Graphics2D g2d = texture.createGraphics();
+        laser.draw(g2d);
+
+        // Add assertions to verify that the laser was drawn correctly
+    }
+
+    // Add more tests to cover other methods and behaviors of the Laser class
+
+}
+

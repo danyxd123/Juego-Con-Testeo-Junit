@@ -1,0 +1,27 @@
+package utils;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class SizeTest {
+
+    @Test
+    public void testGetWidth() {
+        Size size = new Size(10, 20);
+        assertEquals(10, size.getWidth());
+    }
+
+    @Test
+    public void testGetHeight() {
+        Size size = new Size(10, 20);
+        assertEquals(20, size.getHeight());
+    }
+
+    @Test
+    public void testSetSize() {
+        Size size = new Size(10, 20);
+        size.setSize(30, 40);
+        assertEquals(30, size.getWidth());
+        assertEquals(40, size.getHeight());
+    }
+}

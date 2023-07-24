@@ -1,0 +1,26 @@
+package ui;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import ui.Action;
+
+public class ActionTest {
+
+    @Test
+    public void testDoAction() {
+        // Creamos una implementación de prueba de la interfaz Action
+        Action action = new Action() {
+            @Override
+            public void doAction() {
+                // Implementación de prueba
+                // Aquí podrías realizar alguna lógica de prueba o registrar que la acción se ha realizado correctamente
+            }
+        };
+
+        // Ejecutamos el método doAction()
+        action.doAction();
+
+        // Aquí podrías agregar aserciones adicionales según la lógica de tu implementación de prueba
+        // Por ejemplo, verificar si se ha realizado alguna acción específica o si se han actualizado ciertos valores
+    }
+}

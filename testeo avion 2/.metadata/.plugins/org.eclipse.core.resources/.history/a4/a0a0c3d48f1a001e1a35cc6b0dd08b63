@@ -1,0 +1,45 @@
+package states;
+
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Paint;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
+
+public class FakeGraphics2D extends Graphics2D {
+    // Implementa los métodos abstractos de Graphics2D
+    // ...
+
+    @Override
+    public void draw(Shape s) {
+        // Implementación del método draw
+        // ...
+    }
+
+    @Override
+    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+        // Implementación del método drawImage
+        // ...
+        return false;
+    }
+
+    // Implementa el resto de los métodos abstractos de Graphics2D
+
+    // Implementa los métodos de Graphics que no son abstractos en Graphics2D
+    // ...
+}

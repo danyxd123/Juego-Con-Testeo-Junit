@@ -1,0 +1,85 @@
+package gameObjects;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import graphics.Assets;
+import math.Vector2D;
+import states.GameState;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class UfoTest {
+
+    private Ufo ufo;
+    private GameState gameState;
+
+    @BeforeEach
+    public void setUp() {
+        // Configuración inicial para cada prueba
+        gameState = new GameState();
+        Vector2D position = new Vector2D(100, 100);
+        Vector2D velocity = new Vector2D(1, 1);
+        double maxVel = 5;
+        BufferedImage texture = Assets.ufoTexture;
+        ArrayList<Vector2D> path = new ArrayList<>();
+        path.add(new Vector2D(200, 200));
+        path.add(new Vector2D(300, 300));
+        path.add(new Vector2D(400, 400));
+        ufo = new Ufo(position, velocity, maxVel, texture, path, gameState);
+    }
+
+    @Test
+    public void testPathFollowing() {
+        // Verificar si el método 'pathFollowing' devuelve una fuerza de búsqueda correcta para el siguiente nodo
+
+        Vector2D expectedForce = new Vector2D(1, 1); // El siguiente nodo en el camino es (200, 200) y la posición actual es (100, 100)
+        Vector2D actualForce = ufo.pathFollowing();
+
+        assertEquals(expectedForce, actualForce, "La fuerza de búsqueda no es correcta para el siguiente nodo.");
+    }
+
+    @Test
+    public void testUpdate() {
+        // Verificar si el método 'update' actualiza correctamente la posición y realiza disparos
+
+        // Configurar el estado del juego con un jugador en una posición específica
+        Player player = new Player(new Vector2D(300, 300), new Vector2D(), 0, Assets.playerTexture, gameState);
+        gameState.setPlayer(player);
+
+        // Ejecutar el método 'update'
+        ufo.update(1.0f);
+
+        // Verificar si la posición se ha actualizado correctamente
+        Vector2D expectedPosition = new Vector2D(101, 101); // La posición inicial era (100, 100) y la velocidad es (1, 1)
+        assertEquals(expectedPosition, ufo.getPosition(), "La posición no se actualizó correctamente.");
+
+        // Verificar si se ha creado un láser en el juego
+        assertTrue(gameState.getMovingObjects().get(0) instanceof Laser, "No se creó un láser en el juego.");
+
+        // Verificar si el sonido de disparo se reprodujo
+        assertTrue(ufo.getShoot().isPlaying(), "El sonido de disparo no se reprodujo.");
+    }
+
+    @Test
+    public void testDestroy() {
+        // Verificar si el método 'destroy' aumenta la puntuación y reproduce una explosión
+
+        // Configurar el estado del juego
+        gameState.setScore(0);
+
+        // Ejecutar el método 'destroy'
+        ufo.Destroy();
+
+        // Verificar si la puntuación se ha incrementado correctamente
+        int expectedScore = Constants.UFO_SCORE;
+        int actualScore = gameState.getScore();
+        assertEquals(expectedScore, actualScore, "La puntuación no se incrementó correctamente.");
+
+        // Verificar si se reprodujo una explosión en el juego
+        assertTrue(gameState.isExplosionPlaying(), "No se reprodujo una explosión en el juego.");
+    }
+
+    // Agrega más pruebas según sea necesario para cubrir otros métodos y casos de uso en la clase Ufo
+
+}

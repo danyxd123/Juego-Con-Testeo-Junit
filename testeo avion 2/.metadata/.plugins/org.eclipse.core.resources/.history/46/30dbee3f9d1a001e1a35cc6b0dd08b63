@@ -1,0 +1,65 @@
+package gameObjects;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.util.Map;
+
+import math.Vector2D;
+
+class FakeGraphics2D extends Graphics2D {
+    private boolean drawStringCalled = false;
+    private Vector2D textPosition;
+    private Color color;
+    private Font font;
+
+    @Override
+    public void drawString(String str, int x, int y) {
+        drawStringCalled = true;
+        textPosition = new Vector2D(x, y);
+    }
+
+    // Implementa los métodos abstractos de Graphics2D según sea necesario
+    // Proporciona implementaciones vacías para los métodos no utilizados
+
+    @Override
+    public void setComposite(Composite comp) {
+        // Implementación vacía
+    }
+
+    @Override
+    public void setPaint(Paint paint) {
+        // Implementación vacía
+    }
+
+    @Override
+    public void setStroke(Stroke s) {
+        // Implementación vacía
+    }
+
+    // Implementa los demás métodos abstractos según sea necesario
+
+    // ...
+
+    // Métodos adicionales para verificar configuraciones
+    public Color getColor() {
+        return color;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    // Métodos adicionales para verificar llamadas
+    public boolean isDrawStringCalled() {
+        return drawStringCalled;
+    }
+
+    public Vector2D getTextPosition() {
+        return textPosition;
+    }
+
+    // Implementa los demás métodos abstractos según sea necesario
+
+    // ...
+}

@@ -1,0 +1,73 @@
+package states;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+public class ScoreStateTest {
+
+    private ScoreState scoreState;
+
+    @Mock
+    private Graphics mockGraphics;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        scoreState = new ScoreState();
+        Assets.greyBtn = mock(BufferedImage.class);
+    }
+
+    private Object mock(Class<BufferedImage> class1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Test
+    public void update_ReturnButtonClicked_StateChangesToMenuState() {
+        State mockMenuState = mock(MenuState.class);
+        State.changeState(mockMenuState);
+
+        scoreState.update(0.1f);
+        scoreState.returnButton.click();
+
+        assertEquals(mockMenuState, State.getState());
+    }
+
+    @Test
+    public void draw_ScoresAreDrawnInDescendingOrder() {
+        ScoreData scoreData1 = new ScoreData(100, "2023-06-01");
+        ScoreData scoreData2 = new ScoreData(200, "2023-06-02");
+        ScoreData scoreData3 = new ScoreData(150, "2023-06-03");
+
+        scoreState.getHighScores().add(scoreData1);
+        scoreState.getHighScores().add(scoreData2);
+        scoreState.getHighScores().add(scoreData3);
+
+        scoreState.draw(mockGraphics);
+
+        verify(mockGraphics).drawImage(eq(Assets.greyBtn), anyInt(), anyInt(), anyInt(), anyInt(), any());
+        verify(mockGraphics).setColor(Color.BLUE);
+        verify(mockGraphics, times(2)).setFont(Assets.fontBig);
+        verify(mockGraphics).setFont(Assets.fontMed);
+        verify(mockGraphics).setColor(Color.WHITE);
+
+        verify(mockGraphics).drawString("Score", Constants.WIDTH / 2 - 200, 100);
+        verify(mockGraphics).drawString("Date", Constants.WIDTH / 2 + 200, 100);
+        verify(mockGraphics).drawString("200", Constants.WIDTH / 2 - 200, 140);
+        verify(mockGraphics).drawString("2023-06-02", Constants.WIDTH / 2 + 200, 140);
+        verify(mockGraphics).drawString("150", Constants.WIDTH / 2 - 200, 180);
+        verify(mockGraphics).drawString("2023-06-03", Constants.WIDTH / 2 + 200, 180);
+        verify(mockGraphics).drawString("100", Constants.WIDTH / 2 - 200, 220);
+        verify(mockGraphics).drawString("2023-06-01", Constants.WIDTH / 2 + 200, 220);
+
+        verifyNoMoreInteractions(mockGraphics);
+    }
+}
+

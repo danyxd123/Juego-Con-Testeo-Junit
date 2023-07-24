@@ -1,0 +1,73 @@
+package states;
+
+import org.junit.jupiter.api.Test;
+import ui.Action;
+import ui.Button;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+public class MenuStateTest {
+
+    @Test
+    public void testMenuState() {
+        MenuState menuState = new MenuState();
+
+        assertNotNull(menuState.getButtons());
+        assertEquals(3, menuState.getButtons().size());
+
+        // Verificar los botones y sus propiedades
+        Button playButton = menuState.getButtons().get(0);
+        assertNotNull(playButton);
+        assertNotNull(playButton.getNormalImage());
+        assertNotNull(playButton.getHoverImage());
+        assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2, playButton.getX());
+        assertEquals(Constants.HEIGHT / 2 - Assets.greyBtn.getHeight() * 2, playButton.getY());
+        assertEquals(Constants.PLAY, playButton.getText());
+        assertNotNull(playButton.getAction());
+        assertEquals(GameState.class, playButton.getAction().getClass());
+
+        Button exitButton = menuState.getButtons().get(1);
+        assertNotNull(exitButton);
+        assertNotNull(exitButton.getNormalImage());
+        assertNotNull(exitButton.getHoverImage());
+        assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2, exitButton.getX());
+        assertEquals(Constants.HEIGHT / 2 + Assets.greyBtn.getHeight() * 2, exitButton.getY());
+        assertEquals(Constants.EXIT, exitButton.getText());
+        assertNotNull(exitButton.getAction());
+        assertEquals(SystemExitAction.class, exitButton.getAction().getClass());
+
+        Button scoreButton = menuState.getButtons().get(2);
+        assertNotNull(scoreButton);
+        assertNotNull(scoreButton.getNormalImage());
+        assertNotNull(scoreButton.getHoverImage());
+        assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2, scoreButton.getX());
+        assertEquals(Constants.HEIGHT / 2, scoreButton.getY());
+        assertEquals(Constants.HIGH_SCORES, scoreButton.getText());
+        assertNotNull(scoreButton.getAction());
+        assertEquals(ScoreState.class, scoreButton.getAction().getClass());
+    }
+
+    // Definir acciones personalizadas para los botones
+
+    private static class GameState implements Action {
+        @Override
+        public void doAction() {
+            // Lógica de cambio de estado
+        }
+    }
+
+    private static class SystemExitAction implements Action {
+        @Override
+        public void doAction() {
+            // Lógica para salir del juego
+        }
+    }
+
+    private static class ScoreState implements Action {
+        @Override
+        public void doAction() {
+            // Lógica de cambio de estado a pantalla de puntuaciones
+        }
+    }
+}

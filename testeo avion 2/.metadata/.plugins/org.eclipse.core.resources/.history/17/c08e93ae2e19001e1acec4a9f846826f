@@ -1,0 +1,18 @@
+@Test
+public void testChronometerNotRunningWhenTimeNotElapsed() {
+    chronometer.run(2000);
+    assertTrue(chronometer.isRunning());
+
+    chronometer.update();
+    assertTrue(chronometer.isRunning());
+
+    // Esperar un tiempo inferior al tiempo especificado
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    chronometer.update();
+    assertTrue(chronometer.isRunning());
+}

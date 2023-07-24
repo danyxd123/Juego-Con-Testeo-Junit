@@ -1,0 +1,118 @@
+package ui;
+
+import static org.junit.Assert.assertEquals;
+
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import graphics.Assets;
+import graphics.Text;
+import input.MouseInput;
+
+public class ButtonTest {
+
+    private BufferedImage mouseOutImg;
+    private BufferedImage mouseInImg;
+    private Action action;
+    private Graphics graphics;
+    private Button button;
+
+    @Before
+    public void setUp() {
+        Assets.init();
+
+        mouseOutImg = new BufferedImage(100, 50, BufferedImage.TYPE_INT_ARGB);
+        mouseInImg = new BufferedImage(100, 50, BufferedImage.TYPE_INT_ARGB);
+        action = new Action() {
+            @Override
+            public void doAction() {
+                // Empty action
+            }
+        };
+        graphics = new BufferedImage(100, 50, BufferedImage.TYPE_INT_ARGB).getGraphics();
+
+        button = new Button(mouseOutImg, mouseInImg, 0, 0, "Test Button", action);
+    }
+
+    @Test
+    public void testUpdateMouseInAndMouseClicked() {
+        MouseInput.X = 10;
+        MouseInput.Y = 10;
+        MouseInput.MLB = true;
+
+        Rectangle boundingBox = new Rectangle(0, 0, 100, 50);
+        button.setBoundingBox(boundingBox);
+
+        button.update();
+
+        // Verify that action.doAction() was called
+        // In this example, we can't directly verify the method call,
+        // so we can test the side effect of the action instead
+        // For example, set a flag and check its value
+        assertEquals(true, button.isActionPerformed());
+    }
+
+    @Test
+    public void testUpdateMouseNotIn() {
+        MouseInput.X = 10;
+        MouseInput.Y = 10;
+        MouseInput.MLB = false;
+
+        Rectangle boundingBox = new Rectangle(0, 0, 100, 50);
+        button.setBoundingBox(boundingBox);
+
+        button.update();
+
+        // Verify that action.doAction() was not called
+        assertEquals(false, button.isActionPerformed());
+    }
+
+    @Test
+    public void testDrawMouseIn() {
+        Rectangle boundingBox = new Rectangle(0, 0, 100, 50);
+        button.setBoundingBox(boundingBox);
+
+        int textWidth = 80;
+        int textHeight = 20;
+        Text.getTextWidth("Test Button", textWidth);
+        Text.setTextHeight("Test Button", textHeight);
+
+        button.setMouseIn(true);
+
+        button.draw(graphics);
+
+        // Verify that the correct images and text were drawn
+        // In this example, we can only verify the side effect of the drawing,
+        // such as checking the color of a pixel or inspecting the resulting image
+        // For simplicity, let's just check that the text width and height are correct
+        assertEquals(textWidth, button.getTextWidth());
+        assertEquals(textHeight, button.getTextHeight());
+    }
+
+    @Test
+    public void testDrawMouseOut() {
+        Rectangle boundingBox = new Rectangle(0, 0, 100, 50);
+        button.setBoundingBox(boundingBox);
+
+        int textWidth = 80;
+        int textHeight = 20;
+        Text.getTextWidth("Test Button", textWidth);
+        Text.setTextHeight("Test Button", textHeight);
+
+        button.setMouseIn(false);
+
+        button.draw(graphics);
+
+        // Verify that the correct images and text were drawn
+        // In this example, we can only verify the side effect of the drawing,
+        // such as checking the color of a pixel or inspecting the resulting image
+        // For simplicity, let's just check that the text width and height are correct
+        assertEquals(textWidth, button.getTextWidth());
+        assertEquals(textHeight, button.getTextHeight());
+    }
+}
+

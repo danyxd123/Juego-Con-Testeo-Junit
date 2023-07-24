@@ -1,0 +1,24 @@
+package gameObjects;
+
+import math.Vector2D;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import states.GameState;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+public class LaserTest {
+    @BeforeEach
+    public void setUp() {
+        Vector2D position = new Vector2D(100, 100);
+        Vector2D velocity = new Vector2D(1, 0);
+        double maxVel = 10;
+        double angle = 0;
+        BufferedImage texture = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+        GameState gameState = new GameState();
+        new Laser(position, velocity, maxVel, angle, texture, gameState);
+    }
+
+}

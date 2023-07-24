@@ -1,0 +1,84 @@
+package states;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
+import graphics.Assets;
+import main.Handler;
+
+public class MenuState extends State {
+
+    private int currentOption;
+    private Timer timer;
+    private boolean blink;
+    
+    public MenuState(Handler handler) {
+        super(handler);
+        currentOption = 0;
+        blink = true;
+        timer = new Timer(500, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                blink = !blink;
+            }
+        });
+        timer.start();
+    }
+
+    @Override
+    public void tick() {
+        if (handler.getKeyManager().up) {
+            currentOption--;
+            if (currentOption < 0)
+                currentOption = 1;
+        }
+        if (handler.getKeyManager().down) {
+            currentOption++;
+            if (currentOption > 1)
+                currentOption = 0;
+        }
+        if (handler.getKeyManager().enter) {
+            if (currentOption == 0)
+                State.setState(handler.getGame().gameState);
+            else if (currentOption == 1)
+                System.exit(0);
+        }
+    }
+
+    @Override
+    public void render(Graphics g) {
+        g.drawImage(Assets.background, 0, 0, handler.getWidth(), handler.getHeight(), null);
+        g.drawImage(Assets.title, handler.getWidth() / 2 - Assets.title.getWidth() / 2, 70, null);
+        
+        if (blink) {
+            g.setFont(Assets.fontBig);
+            g.setColor(Color.WHITE);
+            g.drawString("START", handler.getWidth() / 2 - 50, 300);
+            
+            g.setFont(Assets.fontBig);
+            g.setColor(Color.WHITE);
+            g.drawString("EXIT", handler.getWidth() / 2 - 50, 400);
+        }
+        
+        if (!blink) {
+            g.setFont(Assets.fontBig);
+            g.setColor(Color.BLACK);
+            g.drawString("START", handler.getWidth() / 2 - 50, 300);
+            
+            g.setFont(Assets.fontBig);
+            g.setColor(Color.BLACK);
+            g.drawString("EXIT", handler.getWidth() / 2 - 50, 400);
+        }
+        
+        // Draw controls
+        g.setFont(Assets.fontMed);
+        g.setColor(Color.WHITE);
+        g.drawString("Use Up and Down arrows to navigate", handler.getWidth() / 2 - 180, 500);
+        g.drawString("Press Enter to select", handler.getWidth() / 2 - 120, 540);
+    }
+}
+

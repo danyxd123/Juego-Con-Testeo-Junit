@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.awt.AlphaComposite"/>
+    <fullyQualifiedTypeName name="io.ScoreData"/>
+    <fullyQualifiedTypeName name="gameObjects.Constants"/>
+    <fullyQualifiedTypeName name="java.awt.Button"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.engine.Constants"/>
+    <fullyQualifiedTypeName name="graphics.Assets"/>
+    <fullyQualifiedTypeName name="math.Vector2D"/>
+    <fullyQualifiedTypeName name="states.GameState"/>
+</qualifiedTypeNameHistroy>

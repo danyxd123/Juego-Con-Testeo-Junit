@@ -1,0 +1,12 @@
+package org.mockito;
+
+import gameObjects.UfoTest;
+
+public class MockitoAnnotations {
+
+	public static void initMocks(UfoTest ufoTest) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

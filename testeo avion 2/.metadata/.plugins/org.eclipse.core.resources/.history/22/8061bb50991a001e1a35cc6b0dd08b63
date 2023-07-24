@@ -1,0 +1,54 @@
+package utils;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class SizeTest {
+    
+    @Test
+    public void createSize_ShouldCreateSizeObjectWithGivenWidthAndHeight() {
+        int width = 10;
+        int height = 20;
+        
+        Size size = new Size(width, height);
+        
+        assertEquals(width, size.getWidth());
+        assertEquals(height, size.getHeight());
+    }
+    
+    @Test
+    public void getWidth_ShouldReturnWidthOfSizeObject() {
+        int width = 10;
+        int height = 20;
+        Size size = new Size(width, height);
+        
+        int result = size.getWidth();
+        
+        assertEquals(width, result);
+    }
+    
+    @Test
+    public void getHeight_ShouldReturnHeightOfSizeObject() {
+        int width = 10;
+        int height = 20;
+        Size size = new Size(width, height);
+        
+        int result = size.getHeight();
+        
+        assertEquals(height, result);
+    }
+    
+    @Test
+    public void setSize_ShouldSetNewWidthAndHeightOfSizeObject() {
+        int width = 10;
+        int height = 20;
+        Size size = new Size(width, height);
+        
+        int newWidth = 30;
+        int newHeight = 40;
+        size.setSize(newWidth, newHeight);
+        
+        assertEquals(newWidth, size.getWidth());
+        assertEquals(newHeight, size.getHeight());
+    }
+}

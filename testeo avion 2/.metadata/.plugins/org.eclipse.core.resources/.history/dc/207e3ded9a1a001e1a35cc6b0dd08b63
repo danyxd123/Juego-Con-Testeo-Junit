@@ -1,0 +1,35 @@
+package states;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.awt.Graphics;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class LoadingStateTest {
+    private Graphics graphics;
+
+    public LoadingStateTest() {
+        // Constructor sin argumentos
+    }
+
+    public void setGraphics(Graphics graphics) {
+        this.graphics = graphics;
+    }
+
+    public void render() {
+        // Lógica de renderizado
+    }
+
+    public void update() {
+        // Lógica de actualización
+    }
+
+    public StateEnum getNextState() {
+        // Lógica para obtener el estado siguiente
+        return StateEnum.MENU;
+    }
+}

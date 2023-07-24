@@ -1,0 +1,65 @@
+package gameObjects;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import gameObjects.Ufo;
+import graphics.Assets;
+import math.Vector2D;
+import states.GameState;
+
+public class UfoTest {
+
+    private Ufo ufo;
+    private GameState gameState;
+
+    @BeforeEach
+    public void setUp() {
+        gameState = new GameState();
+        Vector2D position = new Vector2D(100, 100);
+        Vector2D velocity = new Vector2D(1, 1);
+        double maxVel = 5;
+        BufferedImage texture = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        ArrayList<Vector2D> path = new ArrayList<>();
+        path.add(new Vector2D(200, 200));
+        path.add(new Vector2D(300, 300));
+        path.add(new Vector2D(400, 400));
+        ufo = new Ufo(position, velocity, maxVel, texture, path, gameState);
+    }
+
+    @Test
+    public void testPathFollowing() {
+        Vector2D expectedForce = new Vector2D(1, 1);
+        Vector2D actualForce = ufo.pathFollowing();
+        assertEquals(expectedForce, actualForce, "La fuerza de búsqueda no es correcta para el siguiente nodo.");
+    }
+
+    @Test
+    public void testUpdate() {
+        Player player = new Player(new Vector2D(300, 300), new Vector2D(), 0, new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), gameState);
+        gameState.setPlayer(player);
+        ufo.update(1.0f);
+        Vector2D expectedPosition = new Vector2D(101, 101);
+        assertEquals(expectedPosition, ufo.getPosition(), "La posición no se actualizó correctamente.");
+        assertTrue(gameState.getMovingObjects().get(0) instanceof Laser, "No se creó un láser en el juego.");
+        assertTrue(ufo.getShoot().isPlaying(), "El sonido de disparo no se reprodujo.");
+    }
+
+    @Test
+    public void testDestroy() {
+        gameState.setScore(0);
+        ufo.Destroy();
+        int expectedScore = 100; // Suponiendo que Constants.UFO_SCORE es igual a 100
+        int actualScore = gameState.getScore();
+        assertEquals(expectedScore, actualScore, "La puntuación no se incrementó correctamente.");
+        assertTrue(gameState.isExplosionPlaying(), "No se reprodujo una explosión en el juego.");
+    }
+
+    // Otras pruebas...
+
+}
+

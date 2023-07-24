@@ -1,0 +1,94 @@
+package gameObjects;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
+import math.Vector2D;
+
+import static org.junit.Assert.*;
+
+public class MessageTest {
+
+    private Message message;
+    private Vector2D position;
+    private boolean fade;
+    private String text;
+    private Color color;
+    private boolean center;
+    @Mock
+    private Font font;
+    @Mock
+    private Graphics2D graphics;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+
+        position = new Vector2D(100, 200);
+        fade = true;
+        text = "Hello, World!";
+        color = Color.WHITE;
+        center = true;
+
+        message = new Message(position, fade, text, color, center, font);
+    }
+
+    @Test
+    public void testDraw() {
+        // Set up
+        AlphaComposite alphaComposite = mock(AlphaComposite.class);
+        ((Object) when(graphics.getComposite())).thenReturn(alphaComposite);
+
+        // Call the method
+        message.draw(graphics);
+
+        // Verify the expected method calls
+        verify(graphics).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, message.getAlpha()));
+        verify(graphics).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+        verify(graphics).setColor(color);
+        verify(graphics).setFont(font);
+        verify(graphics).drawString(text, (int) position.getX(), (int) position.getY());
+        verify(alphaComposite).getAlpha();
+    }
+
+    private AlphaComposite verify(Graphics2D graphics2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object when(Composite composite) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private AlphaComposite mock(Class<AlphaComposite> class1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Test
+    public void testIsDead() {
+        assertFalse(message.isDead());
+
+        // Call the method multiple times
+        for (int i = 0; i < 100; i++) {
+            message.draw(graphics);
+        }
+
+        assertTrue(message.isDead());
+    }
+
+    @Test
+    public void testGetAlpha() {
+        assertEquals(0, message.getAlpha(), 0);
+    }
+}
+

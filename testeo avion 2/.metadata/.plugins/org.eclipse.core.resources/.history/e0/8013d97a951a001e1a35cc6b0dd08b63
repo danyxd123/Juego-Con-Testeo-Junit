@@ -1,0 +1,50 @@
+package states;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.awt.Graphics;
+import java.io.FileNotFoundException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class ScoreStateTest {
+    private ScoreState scoreState;
+
+    @BeforeEach
+    void setUp() {
+        scoreState = new ScoreState();
+    }
+
+    @Test
+    void testUpdate() {
+        scoreState.update(0.1f);
+        // Aquí puedes agregar aserciones adicionales según lo que deba suceder en el método update()
+    }
+
+    @Test
+    void testDraw() {
+        Graphics graphicsMock = mock(Graphics.class);
+        assertDoesNotThrow(() -> scoreState.draw(graphicsMock));
+        // Aquí puedes agregar aserciones adicionales según lo que deba suceder en el método draw()
+    }
+
+    @Test
+    void testGetReturnButton() {
+        assertNotNull(scoreState.getReturnButton());
+        // Puedes realizar aserciones adicionales según lo que deba devolver el método getReturnButton()
+    }
+
+    @Test
+    void testGetScoreComparator() {
+        assertNotNull(scoreState.getScoreComparator());
+        // Puedes realizar aserciones adicionales según lo que deba devolver el método getScoreComparator()
+    }
+
+    // Aquí puedes agregar más pruebas según sea necesario para cubrir todos los casos y comportamientos del estado ScoreState
+}

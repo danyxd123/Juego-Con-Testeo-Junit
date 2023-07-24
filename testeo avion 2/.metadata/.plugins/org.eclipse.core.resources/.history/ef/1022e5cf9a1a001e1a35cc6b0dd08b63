@@ -1,0 +1,59 @@
+package states;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+public class LoadingStateTest {
+
+    private Thread loadingThread;
+    private LoadingState loadingState;
+
+    @BeforeEach
+    public void setUp() {
+        loadingThread = mock(Thread.class);
+        loadingState = new LoadingState(loadingThread);
+    }
+
+    @Test
+    public void update_assetsLoaded_changeStateAndJoinThread() throws InterruptedException {
+        // Arrange
+        Assets.loaded = true;
+
+        // Act
+        loadingState.update(0);
+
+        // Assert
+        verify(loadingThread).join();
+        assertTrue(State.getCurrentState() instanceof MenuState);
+    }
+
+    @Test
+    public void update_assetsNotLoaded_doNotChangeState() throws InterruptedException {
+        // Arrange
+        Assets.loaded = false;
+
+        // Act
+        loadingState.update(0);
+
+        // Assert
+        verify(loadingThread, never()).join();
+        assertFalse(State.getCurrentState() instanceof MenuState);
+    }
+
+    @Test
+    public void draw_correctlyDrawsLoadingScreen() {
+        // Arrange
+        Graphics2D graphics = mock(Graphics2D.class);
+
+        // Act
+        loadingState.draw(graphics);
+
+        // Assert
+        // Agrega tus propias afirmaciones aquí para verificar que la pantalla de carga se dibuje correctamente
+    }
+}

@@ -1,0 +1,37 @@
+package states;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import gameObjects.Constants;
+import graphics.Assets;
+import ui.Button;
+
+class MenuStateTest {
+
+    private MenuState menuState;
+
+    @BeforeEach
+    void setUp() {
+        // Aquí puedes inicializar Assets y otras configuraciones de prueba si es necesario
+        Assets.load(); // Cargar las imágenes para las pruebas
+        menuState = new MenuState();
+    }
+
+    @Test
+    void testMenuStateButtons() {
+        // Verificar que se hayan creado los botones correctamente
+        Assertions.assertEquals(3, menuState.buttons.size());
+
+        // Verificar que los botones se creen en las posiciones esperadas
+        Button playButton = menuState.buttons.get(0);
+        Assertions.assertEquals(Constants.WIDTH / 2 - Assets.greyBtn.getWidth() / 2,
+                                playButton.getX());
+        Assertions.assertEquals(Constants.HEIGHT / 2 - Assets.greyBtn.getHeight() * 2,
+                                playButton.getY());
+        // Agregar más aserciones para los otros botones si es necesario
+    }
+
+    // Agregar más pruebas para otros métodos y comportamientos de MenuState si es necesario
+}

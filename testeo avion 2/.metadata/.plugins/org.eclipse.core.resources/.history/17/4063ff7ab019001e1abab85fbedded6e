@@ -1,0 +1,49 @@
+package states;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.awt.Graphics;
+
+import static org.mockito.Mockito.*;
+
+class MenuStateTest {
+    private MenuState menuState;
+
+    @Mock
+    private Graphics graphicsMock;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+        menuState = new MenuState();
+    }
+
+    @Test
+    void testUpdate() {
+        // Realiza las pruebas para el método update
+        menuState.update(0.1f);
+
+        // Verifica que los botones se actualicen correctamente
+        // Puedes utilizar Mockito para simular los objetos Button y verificar sus interacciones
+        // Ejemplo:
+        // verify(buttonMock1, times(1)).update();
+        // verify(buttonMock2, times(1)).update();
+        // verify(buttonMock3, times(1)).update();
+    }
+
+    @Test
+    void testDraw() {
+        // Realiza las pruebas para el método draw
+        menuState.draw(graphicsMock);
+
+        // Verifica que los botones se dibujen correctamente en el objeto Graphics
+        // Puedes utilizar Mockito para simular los objetos Button y verificar sus interacciones
+        // Ejemplo:
+        // verify(buttonMock1, times(1)).draw(graphicsMock);
+        // verify(buttonMock2, times(1)).draw(graphicsMock);
+        // verify(buttonMock3, times(1)).draw(graphicsMock);
+    }
+}

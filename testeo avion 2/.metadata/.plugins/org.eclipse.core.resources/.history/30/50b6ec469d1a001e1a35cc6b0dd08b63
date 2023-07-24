@@ -1,0 +1,55 @@
+package gameObjects;
+
+import org.junit.jupiter.api.Test;
+import java.awt.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FakeGraphics2DTest {
+
+    @Test
+    public void testDrawString() {
+        FakeGraphics2D graphics = new FakeGraphics2D();
+
+        assertFalse(graphics.isDrawStringCalled());
+        assertNull(graphics.getTextPosition());
+
+        String text = "Hello, world!";
+        int x = 100;
+        int y = 200;
+        graphics.drawString(text, x, y);
+
+        assertTrue(graphics.isDrawStringCalled());
+        assertNotNull(graphics.getTextPosition());
+        assertEquals(text, graphics.getTextPosition().toString());
+        assertEquals(x, graphics.getTextPosition().getX());
+        assertEquals(y, graphics.getTextPosition().getY());
+    }
+
+    @Test
+    public void testSetColor() {
+        FakeGraphics2D graphics = new FakeGraphics2D();
+
+        assertNull(graphics.getColor());
+
+        Color color = Color.RED;
+        graphics.setColor(color);
+
+        assertEquals(color, graphics.getColor());
+    }
+
+    @Test
+    public void testSetFont() {
+        FakeGraphics2D graphics = new FakeGraphics2D();
+
+        assertNull(graphics.getFont());
+
+        Font font = new Font("Arial", Font.BOLD, 16);
+        graphics.setFont(font);
+
+        assertEquals(font, graphics.getFont());
+    }
+
+    // Agrega más pruebas según sea necesario para los demás métodos y funcionalidades de la clase FakeGraphics2D
+}
+

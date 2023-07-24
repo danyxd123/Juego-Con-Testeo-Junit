@@ -1,0 +1,43 @@
+package states;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+
+import java.awt.Graphics;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class LoadingStateTest {
+    private LoadingState loadingState;
+    private Graphics graphics;
+
+    @Before
+    public void setUp() {
+        graphics = mock(Graphics.class);
+        loadingState = new LoadingState(null);
+        loadingState.setGraphics(graphics);
+    }
+
+    @Test
+    public void testRender() {
+        loadingState.render(graphics);
+
+        // Agrega las aserciones necesarias para verificar el comportamiento de renderizado
+    }
+
+    @Test
+    public void testUpdate() {
+        loadingState.update(0.0f);
+
+        // Agrega las aserciones necesarias para verificar el comportamiento de actualización
+    }
+
+    @Test
+    public void testGetNextState() {
+        StateEnum nextState = loadingState.getCurrentState();
+
+        // Agrega la aserción necesaria para verificar el estado siguiente
+        assertEquals(StateEnum.MENU, nextState);
+    }
+}

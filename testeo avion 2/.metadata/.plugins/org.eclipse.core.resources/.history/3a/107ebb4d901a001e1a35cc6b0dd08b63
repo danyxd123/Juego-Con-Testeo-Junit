@@ -1,0 +1,60 @@
+package states;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
+import java.text.AttributedCharacterIterator;
+import java.util.Map;
+
+public class FakeGraphics2D extends Graphics2D {
+    private BufferedImage image;
+    private Graphics2D g2d;
+
+    public FakeGraphics2D(BufferedImage image) {
+        this.image = image;
+        this.g2d = image.createGraphics();
+    }
+
+    // Implementar los métodos abstractos de Graphics2D
+    @Override
+    public void draw(Shape s) {
+        g2d.draw(s);
+    }
+
+    @Override
+    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+        return g2d.drawImage(img, xform, obs);
+    }
+
+    // Implementar el resto de los métodos abstractos de Graphics2D
+
+    // Implementar los métodos de Graphics que no son abstractos en Graphics2D
+    @Override
+    public Graphics create() {
+        return g2d.create();
+    }
+
+    @Override
+    public void dispose() {
+        g2d.dispose();
+    }
+
+    @Override
+    public void draw3DRect(int x, int y, int width, int height, boolean raised) {
+        g2d.draw3DRect(x, y, width, height, raised);
+    }
+
+    // Implementar los demás métodos de Graphics
+
+    // Métodos adicionales específicos de FakeGraphics2D
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    // ...
+}

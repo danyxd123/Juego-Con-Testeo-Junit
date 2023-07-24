@@ -1,0 +1,29 @@
+package states;
+
+import java.awt.Graphics;
+
+public class LoadingState {
+    private Graphics graphics;
+
+    public LoadingState() {
+        // Constructor sin argumentos
+    }
+
+    public void setGraphics(Graphics graphics) {
+        this.graphics = graphics;
+    }
+
+    public void render() {
+        // Lógica de renderizado
+    }
+
+    public void update() {
+        // Lógica de actualización
+    }
+
+    public StateEnum getNextState() {
+        // Lógica para obtener el estado siguiente
+        return StateEnum.MENU;
+    }
+}
+

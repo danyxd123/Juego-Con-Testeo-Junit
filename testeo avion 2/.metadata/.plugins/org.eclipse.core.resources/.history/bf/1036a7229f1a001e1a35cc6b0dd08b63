@@ -1,0 +1,69 @@
+package gameObjects;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import states.GameState;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MeteorTest {
+
+    private Meteor meteor;
+    private GameState gameState;
+
+    @BeforeEach
+    public void setUp() {
+        // Configuración inicial para cada prueba
+        gameState = new GameState();
+        meteor = new Meteor(new Vector2D(0, 0), new Vector2D(1, 1), 10, null, gameState, new Size(50, 50));
+    }
+
+    @Test
+    public void testUpdate() {
+        // Realiza pruebas sobre el método 'update' de la clase Meteor
+
+        // Ejemplo de prueba: Verificar si la posición se actualiza correctamente después de llamar a 'update'
+        meteor.update(1.0f);  // Llamar al método 'update' con un delta de tiempo de 1.0 segundo
+
+        // Verificar si la posición ha sido actualizada correctamente
+        Vector2D expectedPosition = new Vector2D(1, 1);  // La posición inicial era (0, 0), y la velocidad es (1, 1)
+        assertEquals(expectedPosition, meteor.getPosition(), "La posición no se actualizó correctamente.");
+    }
+
+    @Test
+    public void testDestroy() {
+        // Realiza pruebas sobre el método 'destroy' de la clase Meteor
+
+        // Ejemplo de prueba: Verificar si el meteorito se destruye correctamente después de llamar a 'destroy'
+        meteor.destroy();
+
+        assertTrue(meteor.isDestroyed(), "El meteorito no se destruyó correctamente.");
+    }
+
+    @Test
+    public void testGetSpeed() {
+        // Realiza pruebas sobre el método 'getSpeed' de la clase Meteor
+
+        Vector2D expectedSpeed = new Vector2D(1, 1);
+        Vector2D actualSpeed = meteor.getSpeed();
+
+        assertEquals(expectedSpeed, actualSpeed, "La velocidad no se obtuvo correctamente.");
+    }
+
+    @Test
+    public void testSetSpeed() {
+        // Realiza pruebas sobre el método 'setSpeed' de la clase Meteor
+
+        Vector2D newSpeed = new Vector2D(2, 2);
+        meteor.setSpeed(newSpeed);
+
+        Vector2D updatedSpeed = meteor.getSpeed();
+
+        assertEquals(newSpeed, updatedSpeed, "La velocidad no se actualizó correctamente.");
+    }
+
+    // Agrega más pruebas según sea necesario para cubrir otros métodos y casos de uso en la clase Meteor
+
+}
+

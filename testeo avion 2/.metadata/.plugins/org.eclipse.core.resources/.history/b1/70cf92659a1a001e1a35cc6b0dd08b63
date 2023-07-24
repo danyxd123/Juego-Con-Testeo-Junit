@@ -1,0 +1,25 @@
+public class LoadingState {
+    private String stateName;
+
+    public LoadingState(String name) {
+        stateName = name;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String name) {
+        stateName = name;
+    }
+
+    public void startLoading() {
+        System.out.println("Loading state started: " + stateName);
+        // Lógica de carga aquí
+    }
+
+    public void finishLoading() {
+        System.out.println("Loading state finished: " + stateName);
+        // Lógica de finalización de carga aquí
+    }
+}

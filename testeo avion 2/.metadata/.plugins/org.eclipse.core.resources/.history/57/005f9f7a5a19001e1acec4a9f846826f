@@ -1,0 +1,58 @@
+package states;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.awt.Graphics;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class StateTest {
+
+    private State state;
+
+    @Before
+    public void setUp() {
+        state = new State() {
+            @Override
+            public void update(float dt) {
+                // Empty update
+            }
+
+            @Override
+            public void draw(Graphics g) {
+                // Empty draw
+            }
+        };
+    }
+
+    @Test
+    public void testGetCurrentState() {
+        State.changeState(state);
+        assertEquals(state, State.getCurrentState());
+    }
+
+    @Test
+    public void testChangeState() {
+        State newState = mock(State.class);
+        State.changeState(newState);
+        assertEquals(newState, State.getCurrentState());
+    }
+
+    @Test
+    public void testUpdate() {
+        float dt = 0.1f;
+        state.update(dt);
+        // Add your assertions here to verify the update behavior
+    }
+
+    @Test
+    public void testDraw() {
+        Graphics g = mock(Graphics.class);
+        state.draw(g);
+        // Add your assertions here to verify the draw behavior using the mock Graphics object
+        verify(g).drawString("Hello, world!", 0, 0);
+    }
+}

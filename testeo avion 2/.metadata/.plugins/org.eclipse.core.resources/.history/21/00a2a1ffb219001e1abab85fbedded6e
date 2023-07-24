@@ -1,0 +1,121 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import graphics.Assets;
+import main.Handler;
+import states.GameState;
+import states.MenuState;
+import states.State;
+
+public class MenuStateTest {
+
+    @Mock
+    private Handler handler;
+    
+    private MenuState menuState;
+    
+    @Before
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        when(handler.getWidth()).thenReturn(800);
+        when(handler.getHeight()).thenReturn(600);
+        when(handler.getGame()).thenReturn(mock(Game.class));
+        when(handler.getGame().getGameState()).thenReturn(mock(GameState.class));
+        Assets.init();
+        menuState = new MenuState(handler);
+    }
+    
+    @Test
+    public void testConstructor() {
+        assertEquals(0, menuState.getCurrentOption());
+        assertTrue(menuState.isBlink());
+        Timer timer = getPrivateField(menuState, "timer");
+        assertTrue(timer.isRunning());
+    }
+    
+    @Test
+    public void testTickUp() {
+        simulateKeyPress(handler, KeyEvent.VK_UP);
+        assertEquals(1, menuState.getCurrentOption());
+        simulateKeyPress(handler, KeyEvent.VK_UP);
+        assertEquals(0, menuState.getCurrentOption());
+        simulateKeyPress(handler, KeyEvent.VK_UP);
+        assertEquals(1, menuState.getCurrentOption());
+    }
+    
+    @Test
+    public void testTickDown() {
+        simulateKeyPress(handler, KeyEvent.VK_DOWN);
+        assertEquals(1, menuState.getCurrentOption());
+        simulateKeyPress(handler, KeyEvent.VK_DOWN);
+        assertEquals(0, menuState.getCurrentOption());
+        simulateKeyPress(handler, KeyEvent.VK_DOWN);
+        assertEquals(1, menuState.getCurrentOption());
+    }
+    
+    @Test
+    public void testTickEnter() {
+        simulateKeyPress(handler, KeyEvent.VK_ENTER);
+        verify(handler.getGame().getGameState()).reset();
+        verify(handler.getGame()).setState(handler.getGame().getGameState());
+        
+        simulateKeyPress(handler, KeyEvent.VK_DOWN);
+        simulateKeyPress(handler, KeyEvent.VK_ENTER);
+        verify(handler.getGame()).exit();
+    }
+    
+    @Test
+    public void testRender() {
+        Graphics graphics = mock(Graphics.class);
+        menuState.render(graphics);
+        
+        verify(graphics).drawImage(Assets.background, 0, 0, 800, 600, null);
+        verify(graphics).drawImage(Assets.title, 400 - Assets.title.getWidth() / 2, 70, null);
+        
+        assertFalse(menuState.isBlink());
+        menuState.render(graphics);
+        assertTrue(menuState.isBlink());
+        
+        verify(graphics).setFont(Assets.fontBig);
+        verify(graphics).setColor(Color.WHITE);
+        verify(graphics).drawString("START", 350, 300);
+        verify(graphics).drawString("EXIT", 360, 400);
+        
+        verify(graphics).setFont(Assets.fontMed);
+        verify(graphics).setColor(Color.WHITE);
+        verify(graphics).drawString("Use Up and Down arrows to navigate", 260, 500);
+        verify(graphics).drawString("Press Enter to select", 340, 540);
+    }
+    
+    private <T> T getPrivateField(Object object, String fieldName) {
+        try {
+            Field field = object.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return (T) field.get(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    private void simulateKeyPress(Handler handler, int keyCode) {
+        KeyEvent keyEvent = mock(KeyEvent.class);
+        when(keyEvent.getKeyCode()).thenReturn(keyCode);
+        handler.getKeyManager().keyPressed(keyEvent);
+    }
+}

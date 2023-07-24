@@ -1,0 +1,28 @@
+package states;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.awt.Graphics;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import states.LoadingState;
+
+class LoadingStateTest {
+
+    private LoadingState loadingState;
+
+    @BeforeEach
+    void setUp() {
+        loadingState = new LoadingState();
+    }
+
+    @Test
+    void testDraw() {
+        Graphics graphics = mock(Graphics.class);
+        loadingState.draw(graphics);
+        verify(graphics).drawString("Loading...", 0, 0);
+    }
+}

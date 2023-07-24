@@ -1,0 +1,42 @@
+package states;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.awt.Button;
+import java.awt.Graphics;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+import static org.mockito.Mockito.*;
+
+public class ScoreStateTest {
+    @Mock
+    private Graphics graphicsMock;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void render_ShouldRenderScores() {
+        ScoreData scoreDataMock = mock(ScoreData.class);
+        Button buttonMock = mock(Button.class);
+        PriorityQueue<Integer> scoresMock = mock(PriorityQueue.class);
+        Comparator<Integer> comparatorMock = mock(Comparator.class);
+
+        when(scoreDataMock.getScores()).thenReturn(scoresMock);
+        when(scoreDataMock.getScoreComparator()).thenReturn(comparatorMock);
+        when(comparatorMock.reversed()).thenReturn(comparatorMock);
+
+        ScoreState scoreState = new ScoreState(scoreDataMock, buttonMock);
+        scoreState.render(graphicsMock);
+
+        verify(scoresMock).forEach(any());
+        verify(graphicsMock).drawString(anyString(), anyInt(), anyInt());
+        verify(buttonMock).render(graphicsMock);
+    }
+}

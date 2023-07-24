@@ -1,0 +1,77 @@
+package states;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.Button;
+import java.awt.Graphics;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+import static org.junit.Assert.assertEquals;
+
+public class ScoreStateTest {
+    private GraphicsMock graphicsMock;
+    private ScoreData scoreDataMock;
+    private Button buttonMock;
+
+    @Before
+    public void setUp() {
+        graphicsMock = new GraphicsMock();
+        scoreDataMock = new ScoreDataMock();
+        buttonMock = new ButtonMock();
+    }
+
+    @Test
+    public void render_ShouldRenderScores() {
+        ScoreState scoreState = new ScoreState(scoreDataMock, buttonMock);
+        scoreState.render(graphicsMock);
+
+        assertEquals(3, graphicsMock.getDrawStringCount());
+        assertEquals(1, buttonMock.getRenderCount());
+    }
+
+    private static class GraphicsMock extends Graphics {
+        private int drawStringCount = 0;
+
+        @Override
+        public void drawString(String str, int x, int y) {
+            drawStringCount++;
+        }
+
+        public int getDrawStringCount() {
+            return drawStringCount;
+        }
+    }
+
+    private static class ScoreDataMock extends ScoreData {
+        @Override
+        public PriorityQueue<Integer> getScores() {
+            PriorityQueue<Integer> scores = new PriorityQueue<>();
+            scores.add(10);
+            scores.add(5);
+            scores.add(3);
+            return scores;
+        }
+
+        @Override
+        public Comparator<Integer> getScoreComparator() {
+            return Comparator.naturalOrder();
+        }
+    }
+
+    private static class ButtonMock extends Button {
+        private int renderCount = 0;
+
+        @Override
+        public void render(Graphics g) {
+            renderCount++;
+        }
+
+        public int getRenderCount() {
+            return renderCount;
+        }
+    }
+}
+
+

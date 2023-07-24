@@ -1,0 +1,22 @@
+package states;
+
+import ui.Button;
+
+import java.util.ArrayList;
+
+public class MenuState {
+
+    private ArrayList<Button> buttons;
+
+    public MenuState() {
+        buttons = new ArrayList<>();
+        buttons.add(new Button(graphics.Assets.startBtn, graphics.Assets.startBtnHover, new StartAction()));
+        buttons.add(new Button(graphics.Assets.optionsBtn, graphics.Assets.optionsBtnHover, new OptionsAction()));
+        buttons.add(new Button(graphics.Assets.quitBtn, graphics.Assets.quitBtnHover, new QuitAction()));
+    }
+
+    public ArrayList<Button> getButtons() {
+        return buttons;
+    }
+}
+

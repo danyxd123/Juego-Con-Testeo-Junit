@@ -1,0 +1,59 @@
+package states;
+
+import org.junit.Before;
+import org.junit.Test;
+import io.ScoreData;
+import java.awt.Graphics;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+public class ScoreStateTest {
+    private Graphics graphicsMock;
+    private ScoreData scoreDataMock;
+    private CustomButton buttonMock;
+
+    @Before
+    public void setUp() {
+        graphicsMock = mock(Graphics.class);
+        scoreDataMock = new ScoreDataMock();
+        buttonMock = mock(CustomButton.class);
+    }
+
+    @Test
+    public void render_ShouldRenderScores() {
+        ScoreState scoreState = new ScoreState(scoreDataMock, buttonMock);
+        scoreState.render(graphicsMock);
+
+        verify(graphicsMock).drawString("10", 0, 0);
+        verify(graphicsMock).drawString("5", 0, 0);
+        verify(graphicsMock).drawString("3", 0, 0);
+        verify(buttonMock).render(graphicsMock);
+    }
+
+    private static class ScoreDataMock extends ScoreData {
+        @Override
+        public PriorityQueue<Integer> getScores() {
+            PriorityQueue<Integer> scores = new PriorityQueue<>();
+            scores.add(10);
+            scores.add(5);
+            scores.add(3);
+            return scores;
+        }
+
+        @Override
+        public Comparator<Integer> getScoreComparator() {
+            return Comparator.naturalOrder();
+        }
+    }
+
+    private static class CustomButton {
+        // Implementa los métodos necesarios para simular el comportamiento de JButton en tus pruebas
+        public void render(Graphics graphics) {
+            // Implementa la lógica de renderizado para la prueba
+        }
+    }
+}
+

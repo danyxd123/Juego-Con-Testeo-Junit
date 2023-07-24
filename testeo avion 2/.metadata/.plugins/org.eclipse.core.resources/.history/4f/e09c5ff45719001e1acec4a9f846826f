@@ -1,0 +1,101 @@
+package ui;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class ButtonTest {
+
+    private BufferedImage mockMouseOutImg;
+    private BufferedImage mockMouseInImg;
+    private Action mockAction;
+    private Button button;
+
+    @Before
+    public void setUp() {
+        // Configuración de los mocks
+        mockMouseOutImg = Mockito.mock(BufferedImage.class);
+        mockMouseInImg = Mockito.mock(BufferedImage.class);
+        mockAction = Mockito.mock(Action.class);
+
+        // Creación del objeto Button para probarlo
+        button = new Button(mockMouseOutImg, mockMouseInImg, 0, 0, "Test Button", mockAction);
+    }
+
+    @Test
+    public void testUpdate_mouseIn() {
+        // Simular que el mouse está dentro del botón
+        MouseInput.X = 10;
+        MouseInput.Y = 10;
+
+        // Ejecutar el método update
+        button.update();
+
+        // Verificar que la variable mouseIn sea true
+        assertTrue(button.mouseIn);
+    }
+
+    @Test
+    public void testUpdate_mouseOut() {
+        // Simular que el mouse está fuera del botón
+        MouseInput.X = 100;
+        MouseInput.Y = 100;
+
+        // Ejecutar el método update
+        button.update();
+
+        // Verificar que la variable mouseIn sea false
+        assertFalse(button.mouseIn);
+    }
+
+    @Test
+    public void testUpdate_mouseClicked() {
+        // Simular que el mouse está dentro del botón y se hace clic izquierdo
+        MouseInput.X = 10;
+        MouseInput.Y = 10;
+        MouseInput.MLB = true;
+
+        // Ejecutar el método update
+        button.update();
+
+        // Verificar que el método doAction del mockAction haya sido llamado
+        Mockito.verify(mockAction, Mockito.times(1)).doAction();
+    }
+
+    @Test
+    public void testDraw_mouseIn() {
+        // Configuración del mock Graphics
+        Graphics mockGraphics = Mockito.mock(Graphics.class);
+
+        // Simular que el mouse está dentro del botón
+        button.mouseIn = true;
+
+        // Ejecutar el método draw
+        button.draw(mockGraphics);
+
+        // Verificar que se haya llamado al método drawImage con mockMouseInImg
+        Mockito.verify(mockGraphics, Mockito.times(1)).drawImage(mockMouseInImg, 0, 0, null);
+    }
+
+    @Test
+    public void testDraw_mouseOut() {
+        // Configuración del mock Graphics
+        Graphics mockGraphics = Mockito.mock(Graphics.class);
+
+        // Simular que el mouse está fuera del botón
+        button.mouseIn = false;
+
+        // Ejecutar el método draw
+        button.draw(mockGraphics);
+
+        // Verificar que se haya llamado al método drawImage con mockMouseOutImg
+        Mockito.verify(mockGraphics, Mockito.times(1)).drawImage(mockMouseOutImg, 0, 0, null);
+    }
+}
+

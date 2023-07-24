@@ -1,0 +1,92 @@
+package gameObjects;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import math.Vector2D;
+import states.GameState;
+import utils.Size;
+
+import static org.junit.Assert.*;
+
+public class MessageTest {
+
+    private Meteor meteor;
+    private Vector2D position;
+    private Vector2D velocity;
+    private double maxVel;
+    @Mock
+    private BufferedImage texture;
+    @Mock
+    private GameState gameState;
+    @Mock
+    private Graphics2D graphics;
+
+    @Before
+    public void setUp() {
+        position = new Vector2D(100, 200);
+        velocity = new Vector2D(1, 0);
+        maxVel = 5.0;
+        texture = mock(BufferedImage.class);
+        gameState = mock(GameState.class);
+
+        meteor = new Meteor(position, velocity, maxVel, texture, gameState, Size.LARGE);
+    }
+
+    @Test
+    public void testUpdate() {
+        // Set up
+        Player player = mock(Player.class);
+        Vector2D playerCenter = new Vector2D(300, 200);
+        when(gameState.getPlayer()).thenReturn(player);
+        when(player.getCenter()).thenReturn(playerCenter);
+        meteor.setWidth(50);
+        meteor.setHeight(50);
+        meteor.setAngle(0);
+
+        // Call the method
+        meteor.update(0.1f);
+
+        // Verify the expected method calls and behavior
+        verify(player).isShieldOn();
+        verify(player).getCenter();
+        verify(graphics).drawImage(eq(texture), eq((int) position.getX()), eq((int) position.getY()), eq(null));
+        assertTrue(meteor.getVelocity().getMagnitude() <= Constants.METEOR_MAX_VEL);
+        assertEquals(50, meteor.getWidth());
+        assertEquals(50, meteor.getHeight());
+        assertEquals(0.05, meteor.getAngle(), 0.001);
+    }
+
+    @Test
+    public void testDestroy() {
+        // Set up
+        Player player = mock(Player.class);
+        meteor.setWidth(50);
+        meteor.setHeight(50);
+
+        // Call the method
+        meteor.destroy();
+
+        // Verify the expected method calls and behavior
+        verify(gameState).divideMeteor(meteor);
+        verify(gameState).playExplosion(position);
+        verify(gameState).addScore(Constants.METEOR_SCORE, position);
+        assertTrue(meteor.isDestroyed());
+        assertEquals(50, meteor.getWidth());
+        assertEquals(50, meteor.getHeight());
+    }
+
+    @Test
+    public void testGetSize() {
+        assertEquals(Size.LARGE, meteor.getSize());
+    }
+
+    @Test
+    public void testIsDestroyed() {
+        assertFalse(meteor.isDestroyed());
+    }
+}

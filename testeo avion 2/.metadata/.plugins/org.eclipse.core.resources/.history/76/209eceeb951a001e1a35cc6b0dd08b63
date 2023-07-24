@@ -1,0 +1,59 @@
+package states;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import ui.Button;
+import io.ScoreData;
+import states.ScoreState;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+public class ScoreStateTest {
+
+    private ScoreState scoreState;
+    private Graphics graphicsMock;
+
+    @Before
+    public void setUp() {
+        scoreState = new ScoreState();
+        graphicsMock = Mockito.mock(Graphics.class);
+    }
+
+    @Test
+    public void testUpdate() {
+        Button returnButtonMock = Mockito.mock(Button.class);
+        Mockito.when(scoreState.getReturnButton()).thenReturn(returnButtonMock);
+
+        scoreState.update(0.1f);
+
+        Mockito.verify(returnButtonMock).update();
+    }
+
+    @Test
+    public void testDraw() {
+        Button returnButtonMock = Mockito.mock(Button.class);
+        Mockito.when(scoreState.getReturnButton()).thenReturn(returnButtonMock);
+
+        Comparator<ScoreData> scoreComparatorMock = Mockito.mock(Comparator.class);
+        Mockito.when(scoreState.getScoreComparator()).thenReturn(scoreComparatorMock);
+
+        PriorityQueue<ScoreData> highScoresMock = Mockito.mock(PriorityQueue.class);
+        Mockito.when(highScoresMock.toArray(Mockito.any())).thenReturn(new ScoreData[0]);
+        Mockito.when(scoreState.highScores).thenReturn(highScoresMock);
+
+        scoreState.draw(graphicsMock);
+
+        Mockito.verify(returnButtonMock).draw(graphicsMock);
+        Mockito.verify(graphicsMock, Mockito.times(2)).setColor(Mockito.any());
+        Mockito.verify(graphicsMock, Mockito.times(2)).setFont(Mockito.any());
+        Mockito.verify(graphicsMock, Mockito.times(2)).drawString(Mockito.any(), Mockito.anyInt(), Mockito.anyInt());
+    }
+
+}

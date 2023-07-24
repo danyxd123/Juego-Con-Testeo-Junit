@@ -1,0 +1,46 @@
+package states;
+
+import java.awt.*;
+
+class StateTest {
+    private State state;
+    private FakeGraphics graphics;
+
+    @BeforeEach
+    void setUp() {
+        state = new ConcreteState();
+        graphics = new FakeGraphics();
+    }
+
+    @Test
+    void testUpdate() {
+        state.update(0.1f);
+        assertTrue(state.isUpdateCalled());
+    }
+
+    @Test
+    void testDraw() {
+        state.draw(graphics);
+        assertTrue(state.isDrawCalled());
+    }
+
+    // Clase ficticia para simular la clase Graphics
+    private static class FakeGraphics extends Graphics {
+        // Implementa los métodos abstractos de la clase Graphics según sea necesario
+        // ...
+    }
+
+    // Clase concreta que extiende State para probar las implementaciones de los métodos abstractos
+    private static class ConcreteState extends State {
+        @Override
+        public void update(float dt) {
+            updateCalled = true;
+        }
+
+        @Override
+        public void draw(Graphics g) {
+            drawCalled = true;
+        }
+    }
+}
+

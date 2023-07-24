@@ -1,0 +1,74 @@
+package states;
+
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
+import java.text.AttributedCharacterIterator;
+import java.util.Map;
+
+public class FakeGraphics2D extends Graphics2D {
+    private BufferedImage image;
+    private Graphics2D g2d;
+
+    public FakeGraphics2D(BufferedImage image) {
+        this.image = image;
+        this.g2d = image.createGraphics();
+    }
+
+    // Implementar los métodos abstractos de Graphics2D
+    @Override
+    public void draw(Shape s) {
+        g2d.draw(s);
+    }
+
+    @Override
+    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+        return g2d.drawImage(img, xform, obs);
+    }
+
+    // Implementar el resto de los métodos abstractos de Graphics2D
+
+    // Implementar los métodos de Graphics que no son abstractos en Graphics2D
+    @Override
+    public Graphics create() {
+        return g2d.create();
+    }
+
+    @Override
+    public void dispose() {
+        g2d.dispose();
+    }
+
+    @Override
+    public void draw3DRect(int x, int y, int width, int height, boolean raised) {
+        g2d.draw3DRect(x, y, width, height, raised);
+    }
+
+    // Implementar los demás métodos de Graphics
+
+    // Implementar el método setComposite
+    @Override
+    public void setComposite(Composite comp) {
+        g2d.setComposite(comp);
+    }
+
+    // Implementar los métodos adicionales necesarios para simular el entorno de dibujo
+    // según las necesidades de las pruebas
+
+    // ...
+}
+

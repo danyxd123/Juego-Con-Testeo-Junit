@@ -1,0 +1,24 @@
+package states;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert;
+
+import java.awt.Graphics;
+
+public class StateTest {
+
+    private TestState testState;
+    private Graphics graphics;
+
+    @Before
+    public void setUp() {
+        testState = new TestState();
+        graphics = new FakeGraphics();
+    }
+
+    @After
+    public void tearDown() {
+        State.resetFlags();
+    }

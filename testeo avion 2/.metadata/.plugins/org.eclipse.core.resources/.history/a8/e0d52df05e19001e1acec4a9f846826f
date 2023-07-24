@@ -1,0 +1,71 @@
+package states;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+public class ScoreStateTest {
+
+    private ScoreState scoreState;
+    private Graphics graphicsMock;
+
+    @Before
+    public void setUp() {
+        scoreState = new ScoreState();
+        graphicsMock = mock(Graphics.class);
+    }
+
+    @After
+    public void tearDown() {
+        scoreState = null;
+        graphicsMock = null;
+    }
+
+    @Test
+    public void testDraw() {
+        // Set up test data
+        ScoreData[] testData = {
+                new ScoreData(100, "2023-06-30"),
+                new ScoreData(200, "2023-06-29"),
+                new ScoreData(150, "2023-06-28")
+        };
+        PriorityQueue<ScoreData> highScoresMock = new PriorityQueue<>(3, Comparator.reverseOrder());
+        highScoresMock.add(testData[0]);
+        highScoresMock.add(testData[1]);
+        highScoresMock.add(testData[2]);
+
+        // Set up state with mock data
+        scoreState.setHighScores(highScoresMock);
+
+        // Call the method to be tested
+        scoreState.draw(graphicsMock);
+
+        // Verify the expected drawing calls
+        verify(graphicsMock).setColor(Color.BLUE);
+        verify(graphicsMock, times(2)).setFont(Assets.fontBig);
+        verify(graphicsMock, times(3)).setFont(Assets.fontMed);
+        verify(graphicsMock, times(6)).drawString(anyString(), anyInt(), anyInt());
+
+        // Verify the expected drawing positions and text
+        verify(graphicsMock).drawString(Constants.SCORE, anyInt(), eq(140));
+        verify(graphicsMock).drawString(Constants.DATE, anyInt(), eq(140));
+        verify(graphicsMock).drawString(Integer.toString(testData[0].getScore()), anyInt(), eq(180));
+        verify(graphicsMock).drawString(testData[0].getDate(), anyInt(), eq(180));
+        verify(graphicsMock).drawString(Integer.toString(testData[1].getScore()), anyInt(), eq(220));
+        verify(graphicsMock).drawString(testData[1].getDate(), anyInt(), eq(220));
+        verify(graphicsMock).drawString(Integer.toString(testData[2].getScore()), anyInt(), eq(260));
+        verify(graphicsMock).drawString(testData[2].getDate(), anyInt(), eq(260));
+    }
+
+    // Add other test methods for the remaining behavior of the ScoreState class
+
+}

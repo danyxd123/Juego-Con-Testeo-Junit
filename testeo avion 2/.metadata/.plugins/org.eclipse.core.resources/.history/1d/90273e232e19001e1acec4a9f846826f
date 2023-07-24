@@ -1,0 +1,147 @@
+package gameObjects;
+
+import graphics.Assets;
+import math.Vector2D;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import states.GameState;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+public class UfoTest {
+
+    private Ufo ufo;
+
+    @Mock
+    private Vector2D position;
+    @Mock
+    private Vector2D velocity;
+    @Mock
+    private BufferedImage texture;
+    @Mock
+    private ArrayList<Vector2D> path;
+    @Mock
+    private GameState gameState;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        ufo = new Ufo(position, velocity, 1.0, texture, path, gameState);
+    }
+
+    @Test
+    public void testUpdate_UfoFollowingPath() {
+        // Set up test data
+        int index = 0;
+        Vector2D currentNode = new Vector2D(0, 0);
+        when(position.getX()).thenReturn(0.0);
+        when(position.getY()).thenReturn(0.0);
+        when(velocity.getX()).thenReturn(1.0);
+        when(velocity.getY()).thenReturn(1.0);
+        when(path.get(index)).thenReturn(currentNode);
+        when(currentNode.subtract(any(Vector2D.class))).thenReturn(new Vector2D(1.0, 1.0));
+        when(currentNode.subtract(any(Vector2D.class)).getMagnitude()).thenReturn(1.0);
+        when(velocity.add(any(Vector2D.class))).thenReturn(new Vector2D(2.0, 2.0));
+        when(velocity.limit(anyDouble())).thenReturn(new Vector2D(1.0, 1.0));
+        when(gameState.getPlayer()).thenReturn(mock(Player.class));
+        when(gameState.getPlayer().getCenter()).thenReturn(new Vector2D(0.0, 0.0));
+
+        // Call the method under test
+        ufo.update(1.0f);
+
+        // Verify the expected interactions
+        verify(position, times(1)).getX();
+        verify(position, times(1)).getY();
+        verify(velocity, times(1)).getX();
+        verify(velocity, times(1)).getY();
+        verify(path, times(1)).get(index);
+        verify(currentNode, times(1)).subtract(any(Vector2D.class));
+        verify(currentNode.subtract(any(Vector2D.class)), times(1)).getMagnitude();
+        verify(index, times(1)).++;
+        verify(velocity, times(1)).add(any(Vector2D.class));
+        verify(velocity, times(1)).limit(anyDouble());
+        verify(position, times(1)).add(any(Vector2D.class));
+        verify(gameState, times(1)).getPlayer();
+        verify(gameState.getPlayer(), times(1)).getCenter();
+        verify(gameState.getMovingObjects(), times(1)).add(0, any(Laser.class));
+        verify(gameState, times(1)).playExplosion(any(Vector2D.class));
+    }
+
+    private Object when(double y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Test
+    public void testUpdate_UfoNotFollowingPath() {
+        // Set up test data
+        int index = 1;
+        Vector2D currentNode = new Vector2D(1, 1);
+        when(position.getX()).thenReturn(0.0);
+        when(position.getY()).thenReturn(0.0);
+        when(velocity.getX()).thenReturn(1.0);
+        when(velocity.getY()).thenReturn(1.0);
+        when(path.get(index)).thenReturn(currentNode);
+        when(currentNode.subtract(any(Vector2D.class))).thenReturn(new Vector2D(2.0, 2.0));
+        when(currentNode.subtract(any(Vector2D.class)).getMagnitude()).thenReturn(2.0);
+        when(velocity.add(any(Vector2D.class))).thenReturn(new Vector2D(3.0, 3.0));
+        when(velocity.limit(anyDouble())).thenReturn(new Vector2D(2.0, 2.0));
+        when(position.add(any(Vector2D.class))).thenReturn(new Vector2D(1.0, 1.0));
+        when(position.getX()).thenReturn(1.0);
+        when(position.getY()).thenReturn(1.0);
+
+        // Call the method under test
+        ufo.update(1.0f);
+
+        // Verify the expected interactions
+        verify(position, times(1)).getX();
+        verify(position, times(1)).getY();
+        verify(velocity, times(1)).getX();
+        verify(velocity, times(1)).getY();
+        verify(path, times(1)).get(index);
+        verify(currentNode, times(1)).subtract(any(Vector2D.class));
+        verify(currentNode.subtract(any(Vector2D.class)), times(1)).getMagnitude();
+        verify(index, times(1)).++;
+        verify(velocity, times(1)).add(any(Vector2D.class));
+        verify(velocity, times(1)).limit(anyDouble());
+        verify(position, times(1)).add(any(Vector2D.class));
+        verify(position.getX(), times(1)). > (Constants.WIDTH);
+        verify(position.getY(), times(1)). > (Constants.HEIGHT);
+        verify(position.getX(), times(1)). < (-ufo.getWidth());
+        verify(position.getY(), times(1)). < (-ufo.getHeight());
+        verify(ufo, times(1)).Destroy();
+    }
+
+    @Test
+    public void testDestroy() {
+        // Call the method under test
+        ufo.Destroy();
+
+        // Verify the expected interactions
+        verify(gameState, times(1)).addScore(Constants.UFO_SCORE, position);
+        verify(gameState, times(1)).playExplosion(position);
+        verify(ufo, times(1)).Destroy();
+    }
+
+    @Test
+    public void testDraw() {
+        // Set up test data
+        Graphics g = mock(Graphics.class);
+        Graphics2D g2d = mock(Graphics2D.class);
+        when(g).thenReturn(g2d);
+        AffineTransform at = mock(AffineTransform.class);
+        when(AffineTransform.getTranslateInstance(anyDouble(), anyDouble())).thenReturn(at);
+
+        // Call the method under test
+        ufo.draw(g);
+
+        // Verify the expected interactions
+        verify(g, times(1)).drawImage(texture, at, null);
+    }
+}

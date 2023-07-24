@@ -1,0 +1,55 @@
+package gameObjects;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import math.Vector2D;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MessageTest {
+    private Message message;
+    private Graphics2D graphics2D;
+
+    @BeforeEach
+    void setUp() {
+        message = new Message(new Vector2D(100, 100), true, "Test Message", Color.RED, true,
+                new Font("Arial", Font.BOLD, 16));
+        graphics2D = new FakeGraphics2D();
+    }
+
+    // Puedes agregar más pruebas aquí según sea necesario
+
+    // ...
+}
+
+// Clase FakeGraphics2D utilizada para simular el entorno de dibujo
+class FakeGraphics2D extends Graphics2D {
+    public boolean drawStringCalled = false;
+    public Vector2D textPosition;
+    public Color color;
+    public Font font;
+
+    // Implementa los métodos necesarios para simular el entorno de dibujo
+    // según las necesidades de las pruebas
+
+    @Override
+    public void drawString(String str, int x, int y) {
+        drawStringCalled = true;
+        textPosition = new Vector2D(x, y);
+    }
+
+    // Implementa los demás métodos abstractos según sea necesario
+
+    // ...
+
+    // Métodos adicionales para verificar configuraciones
+    public Color getColor() {
+        return color;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+}
